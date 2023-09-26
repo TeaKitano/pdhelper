@@ -10,17 +10,17 @@ def _file_read(filename, conf, header, index):
         index = 0
     else:
         index = None
-    extention = filename.split(".")[0].lower()
-    if extention == "scv":
+    extention = filename.split(".")[-1].lower()
+    if extention == "csv":
         if conf == "":
-            return pd.read_csv(filename, header=header, index=index)
+            return pd.read_csv(filename, header=header, index_col=index)
         else:
-            return pd.read_csv(filename, encoding=conf, header=header, index=index)
+            return pd.read_csv(filename, encoding=conf, header=header, index_col=index)
     elif extention == "xlsx" or extention == "xls":
         if conf == "":
-            return pd.read_excel(filename, header=header, index=index)
+            return pd.read_excel(filename, header=header, index_col=index)
         else:
-            return pd.read_excel(filename, sheet_name=conf, header=header, index=index)
+            return pd.read_excel(filename, sheet_name=conf, header=header, index_col=index)
     else:
         raise ValueError("FileExtentionError")
 
