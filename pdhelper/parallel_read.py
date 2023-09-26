@@ -24,7 +24,7 @@ def _file_read(filename, conf, header, index):
     else:
         raise ValueError("FileExtentionError")
 
-def oarallel_read(files, conf, header, index):
+def parallel_read(files, conf, header, index):
     args = list(zip(files, conf, header, index))
     with Pool(3) as pool:
         df_list = pool.starmap(_file_read, args)
