@@ -10,7 +10,6 @@ def left_merge(df, df_sub,left_on,right_on,target):
     if sub_len != len(df_sub):
         print("mergeするデータに被りがありました。一番上のデータのみを利用しています。")
     df = pd.merge(df,df_sub.loc[:,target],how="left",left_on=left_on,right_on=right_on)
-    print(df.head())
     if right_on !=left_on:
         df.drop(right_on,axis=1,inplace=True)
     return df
