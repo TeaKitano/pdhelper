@@ -3,7 +3,7 @@ build
 lib
 pyvenv.cfg
 data
-test*.py
+test*
 *.sh
 pdhelper/__pycache__
 pdhelper.egg-info
