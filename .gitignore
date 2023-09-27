@@ -1,0 +1,8 @@
+bin
+lib
+pyvenv.cfg
+data
+test*.py
+*.sh
+pdhelper/__pycache__
+pdhelper.egg-info
