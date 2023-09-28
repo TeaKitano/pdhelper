@@ -57,7 +57,8 @@ df
 | 3   | d    |
 | 4   | e    |
 | 5   | f    |
-df_sub
+
+df_sub<br>
 | name | gender | age | 
 | ---- | ------ | --- | 
 | a    | 1      | 5   | 
