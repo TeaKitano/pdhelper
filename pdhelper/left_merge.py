@@ -3,13 +3,15 @@ import pandas as pd
 
 def left_merge(df: pd.DataFrame, df_sub: pd.DataFrame, left_on: str, right_on: str, target: str | list[str]):
     """
-    左側結合専用のmerge関数
-    input
-        df: 結合元データ
-        df_sub: 結合したいデータ
-        left_on: dfの結合キー
-        right_on: df_subの結合キー
-        target: 使いたい列名 複数の場合リストで指定
+    左側結合専用のmerge関数\n
+    input\n
+        df: 結合元データ\n
+        df_sub: 結合したいデータ\n
+        left_on: dfの結合キー\n
+        right_on: df_subの結合キー\n
+        target: 使いたい列名 複数の場合リストで指定\n
+    output\n
+        df: マージされたDataFrame
     """
     # df_subの使う列抽出
     if type(target) == list:
