@@ -45,9 +45,42 @@ input<br>
 output<br>
 &emsp;マージされたDataFrame
 ```python
-ph.left_merge(files, conf, header, index)
+ph.left_merge(df, df_sub, left_on, rright_on,target)
 ```
+example:<br>
+df
+| id  | name |     
+| --- | ---- | 
+| 0   | a    |
+| 1   | b    |     
+| 2   | c    |     
+| 3   | d    |
+| 4   | e    |
+| 5   | f    |
+df_sub
+| name | gender | age | 
+| ---- | ------ | --- | 
+| a    | 1      | 5   | 
+| b    | 2      | 12  | 
+| c    | 1      | 31  | 
+| d    | 1      | 16  | 
+| e    | 1      | 27  | 
+| f    | 2      | 19  | 
 
+として
+```python
+ph.left_merge(df, df_sub, name, name,gender)
+```
+とした場合、
+| id  | name | gender | 
+| --- | ---- | ------ | 
+| 0   | a    | 1      | 
+| 1   | b    | 2      | 
+| 2   | c    | 1      | 
+| 3   | d    | 1      | 
+| 4   | e    | 1      | 
+| 5   | f    | 2      | 
+が返ってきます
 ## Requrements
 ```python
 pandas
