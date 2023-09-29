@@ -1,9 +1,13 @@
 import pandas as pd
-from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor
 
 
-def _file_read(filename: str, conf: str, header: bool, index: bool) -> pd.DataFrame:
+def _file_read(file: dict) -> pd.DataFrame:
     # ファイル読み込みのための内部関数
+    filename = file["filename"]
+    conf = file["conf"]
+    header = file["header"]
+    index = file["index"]
     if header:
         header = 0
     else:
@@ -28,18 +32,23 @@ def _file_read(filename: str, conf: str, header: bool, index: bool) -> pd.DataFr
         raise ValueError("FileExtentionError")
 
 
-def parallel_read(files: list[str], conf: list[str], header: list[bool], index: list[bool]):
+def parallel_read(files: dict):
     """
     並列処理でファイルを読み込む関数\n
     input:\n
-        files  ファイル名のリスト\n
-        conf   追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート名を(空欄なら1枚目のシート)書く\n
-        header ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse\n
-        index  インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse\n
+        files  読み込むファイルのdict\n
+            key:ファイル名
+            value:各種設定のdict
+                conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート名を(空欄なら1枚目のシート)書く\n
+                header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse\n
+                index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse\n
     outout:\n
         読み込んだDataFrameのリスト
     """
-    args = list(zip(files, conf, header, index))
-    with Pool() as pool:
-        df_list = pool.starmap(_file_read, args)
-    return df_list
+    df_dict = dict()
+    with ProcessPoolExecutor() as executor:
+        for i in files:
+            df_dict[i] = executor.submit(_file_read, files[i])
+    for i in df_dict:
+        df_dict[i] = df_dict[i].result()
+    return df_dict
