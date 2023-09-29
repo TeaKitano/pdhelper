@@ -23,27 +23,31 @@ import pdhelper as ph
 
 ### parallel_read
 複数ファイルを並列処理を使い高速に読み込むための関数です。<br>
+```text
 input<br>
-&emsp;files:ファイル名のリスト<br>
-&emsp;conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート(空欄なら1枚目のシート)書く<br>
-&emsp;header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
-&emsp;index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
+    files:ファイル名のリスト<br>
+    conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート(空欄なら1枚目のシート)書く<br>
+    header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
+    index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
 output<br>
-&emsp;読み込んだDataFrameのリスト
+    読み込んだDataFrameのリスト
+```
 ```python
 ph.paralell_read(files, conf, header, index)
 ```
 
 ### left_merge
 左側へのmergeに特化した関数です。<br>
+```text
 input<br>
-&emsp;df: 結合元データ<br>
-&emsp;df_sub: 結合したいデータ<br>
-&emsp;left_on: dfの結合キー<br>
-&emsp;right_on: df_subの結合キー<br>
-&emsp;target: 使いたい列名 複数の場合リストで指定<br>
+    df: 結合元データ<br>
+    df_sub: 結合したいデータ<br>
+    left_on: dfの結合キー<br>
+    right_on: df_subの結合キー<br>
+    target: 使いたい列名 複数の場合リストで指定<br>
 output<br>
-&emsp;マージされたDataFrame
+    マージされたDataFrame
+```
 ```python
 ph.left_merge(df, df_sub, left_on, rright_on,target)
 ```
@@ -81,6 +85,7 @@ ph.left_merge(df, df_sub, name, name,gender)
 | 3   | d    | 1      | 
 | 4   | e    | 1      | 
 | 5   | f    | 2      | 
+
 が返ってきます
 ## Requrements
 ```python
