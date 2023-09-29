@@ -22,14 +22,16 @@ import pdhelper as ph
 とすることで、phとしてimportします。
 
 ### parallel_read
-複数ファイルを並列処理を使い高速に読み込むための関数です。<br>
+複数ファイルを並列処理を使い高速に読み込むための関数です。入力例は[test_input.json](test_data/parallel/test_input.json)を確認してください。<br>
 ```text
-input<br>
-    files:ファイル名のリスト<br>
-    conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート(空欄なら1枚目のシート)書く<br>
-    header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
-    index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse<br>
-output<br>
+input
+    files:読み込むファイルのdict
+        key:ファイル名
+        value:各種設定のdict
+            conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート名を(空欄なら1枚目のシート)書く
+            header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse
+            index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse
+output
     読み込んだDataFrameのリスト
 ```
 ```python
