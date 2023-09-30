@@ -37,13 +37,16 @@ def parallel_read(files: dict):
     並列処理でファイルを読み込む関数\n
     input:\n
         files  読み込むファイルのdict\n
-            key:ファイル名
+            key:出力のdictのkeyにしたい名前
             value:各種設定のdict
+                filename:ファイルへのパス
                 conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート名を(空欄なら1枚目のシート)書く\n
                 header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse\n
                 index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse\n
     outout:\n
-        読み込んだDataFrameのリスト
+        読み込んだDataFrameの辞書
+        key:inputのkey
+        value:読み込んだDataFrame
     """
     df_dict = dict()
     with ProcessPoolExecutor() as executor:
