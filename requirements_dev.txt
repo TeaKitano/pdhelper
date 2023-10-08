@@ -1,0 +1,5 @@
+pandas
+openpyxl
+flake8
+autopep8
+unittest
