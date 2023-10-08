@@ -1,0 +1,26 @@
+{
+    "csv1":{
+        "filename":"test_data/parallel/csv1.csv",
+        "conf":"utf-8",
+        "header":false,
+        "index":false
+    },
+    "csv2":{
+        "filename":"test_data/parallel/csv2.csv",
+        "conf":"shift-jis",
+        "header":true,
+        "index":true
+    },
+    "excel1":{
+        "filename":"test_data/parallel/エクセル1.xlsx",
+        "conf":"test1",
+        "header":false,
+        "index":false
+    },
+    "excel2":{
+        "filename":"test_data/parallel/エクセル2.xlsx",
+        "conf":"一般code",
+        "header":true,
+        "index":true
+    }
+}
