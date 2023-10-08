@@ -15,6 +15,6 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements_dev.txt
       - name: Run Python
         run: python3 test.py
