@@ -68,3 +68,39 @@ def df_applymap(
 
 
 pd.DataFrame.applymap = df_applymap
+
+
+def s_map(
+    self,
+    arg: Callable | Mapping | pd.Series,
+    na_action: Literal["ignore"] | None = None,
+):
+    process = multiprocessing.current_process()
+    if process.daemon:
+        return self._map(arg, na_action)
+    return self.parallel_map(arg, na_action)
+
+
+pd.Series.map = s_map
+
+
+def s_apply(
+    self,
+    func: AggFuncType,
+    convert_dtype: bool | lib.NoDefault = lib.no_default,
+    args: tuple[Any, ...] = (),
+    **kwargs,
+):
+    process = multiprocessing.current_process()
+    if process.daemon:
+        if kwargs == dict():
+            return self._apply(func, convert_dtype, args)
+        else:
+            return self._apply(func, convert_dtype, args, kwargs)
+    if kwargs == dict():
+        return self.parallel_apply(func, convert_dtype, args)
+    else:
+        return self.parallel_apply(func, convert_dtype, args, kwargs)
+
+
+pd.Series.apply = s_apply
