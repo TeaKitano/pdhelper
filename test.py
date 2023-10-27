@@ -3,6 +3,8 @@ import pdhelper as pd
 import time
 import json
 
+from pdhelper import parallel_dataframe
+
 def file_read(file: dict) -> pd.DataFrame:
     filename = file["filename"]
     conf = file["conf"]
@@ -56,6 +58,21 @@ class TestFunc(unittest.TestCase): # テストのためのクラス
 
         df = pd.left_merge(left,right,"name","named",["age"])
         self.assertEqual(df.equals(ans),True)
+
+    def test_parallelSeries(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        s = df["a"]
+        ans = s.map(lambda x: str(x)[0])
+        for i in ans:
+            self.assertEqual(i,"1")
+        ans = s.apply(lambda x: str(x)[0])
+        for i in ans:
+            self.assertEqual(i,"1")
+        def add_a(x, a):
+            return x+a
+        ans = s.apply(add_a,args = [2])
+        for i in range(3):
+            self.assertEqual(ans[i],i+17)
 
 if __name__ == '__main__':
     unittest.main()
