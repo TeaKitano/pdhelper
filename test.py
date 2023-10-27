@@ -1,6 +1,5 @@
 import unittest
-import pdhelper as ph
-import pandas as pd
+import pdhelper as pd
 import time
 import json
 
@@ -37,7 +36,7 @@ class TestFunc(unittest.TestCase): # テストのためのクラス
         with open("test_data/parallel/test_input.json") as f:
             files = json.load(f)
         start = time.time()
-        arr = ph.parallel_read(files)
+        arr = pd.parallel_read(files)
         end = time.time()
         print("parallel:"+str(end-start))
 
@@ -55,7 +54,7 @@ class TestFunc(unittest.TestCase): # テストのためのクラス
         right = pd.read_csv("test_data/merge/right1.csv")
         ans = pd.read_csv("test_data/merge/out.csv")
 
-        df = ph.left_merge(left,right,"name","named",["age"])
+        df = pd.left_merge(left,right,"name","named",["age"])
         self.assertEqual(df.equals(ans),True)
 
 if __name__ == '__main__':
