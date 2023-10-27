@@ -1,4 +1,5 @@
 pandas
 openpyxl
+pandarallel
 flake8
 autopep8
