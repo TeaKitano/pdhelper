@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: pandashelper
+Version: 1.0.0
+Summary: Useful pandas helper
+Home-page: https://github.com/TeaKitano/pdhelper
+Author: TeaKitano
+Author-email: chachamusics@outlook.com
+License: BSD 3-Clause License
+License-File: LICENSE
