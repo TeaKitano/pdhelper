@@ -21,7 +21,7 @@ from typing import (
 from collections.abc import Mapping
 from pandas._libs import lib
 
-pandarallel.initialize(progress_bar=True)
+pandarallel.initialize()
 
 pd.DataFrame._apply = pd.DataFrame.apply
 pd.DataFrame._applymap = pd.DataFrame.applymap
