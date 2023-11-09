@@ -83,6 +83,12 @@ class TestFunc(unittest.TestCase):  # テストのためのクラス
         self.assertEqual(list(df1), [48, 84, 108, 135])
         df2 = df.apply(lambda x: x["a"]+x["b"]-x["c"], axis=1)
         self.assertEqual(list(df2), [7, 8, 9])
+        df3 = df.applymap(lambda x: x-2)
+        re_list = []
+        for i in df3:
+            re_list.append(list(df3[i]))
+        expend = [[13, 14, 15], [25, 26, 27], [33, 34, 35], [42, 43, 44]]
+        self.assertEqual(re_list, expend)
 
 
 if __name__ == '__main__':
