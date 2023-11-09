@@ -16,7 +16,7 @@ import pdhelper as pd
 ```
 とすることで、pdとしてimportします。
 (PyPiへの登録の関係上、install時はpandashelper、import時はpdhelperとなっていますので、気を付けてください。)<br>
-また、このモジュールはpandasをオーバーライドしているため、pandasに実装されているすべての関数を、利用できます。<br>
+また、このモジュールはpandasをオーバーライドしているため、pandasに実装されているすべての関数を利用できます。<br>
 詳細は、[test.py](test.py)で確認できます。
 ### parallel_read
 複数ファイルを並列処理を使い高速に読み込むための関数です。入力例は[test_input.json](test_data/parallel/test_input.json)を確認してください。<br>
@@ -91,13 +91,13 @@ pd.left_merge(df, df_sub, name, name,gender)
 ```python
 from pdhelper import parallel_dataframe
 ```
-をimportすることにより、DataFrameとSeriesに適応するapply等を常時並列で処理します。
+をimportすることにより、DataFrameとSeriesに適用するapply等を常時並列で処理します。
 この機能を使う場合、
 ```bash
 pip install pandarallel
 ```
 でpandarallelをインストールしてください。<br>
-現在対応している関数は、
+現在対応している関数は
 ```
 pandas.DataFrame.apply
 pandas.DataFrame.applymap
