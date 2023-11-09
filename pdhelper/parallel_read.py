@@ -21,12 +21,14 @@ def _file_read(file: dict) -> pd.DataFrame:
         if conf == "":
             return pd.read_csv(filename, header=header, index_col=index)
         else:
-            return pd.read_csv(filename, encoding=conf, header=header, index_col=index)
+            return pd.read_csv(filename, encoding=conf, header=header,
+                               index_col=index)
     elif extention == "xlsx" or extention == "xls":
         if conf == "":
             return pd.read_excel(filename, header=header, index_col=index)
         else:
-            return pd.read_excel(filename, sheet_name=conf, header=header, index_col=index)
+            return pd.read_excel(filename, sheet_name=conf,
+                                 header=header, index_col=index)
     else:
         # 拡張子がcsv,xlsx,xls以外だったらこのエラー
         raise ValueError("FileExtentionError")
@@ -40,7 +42,8 @@ def parallel_read(files: dict):
             key:出力のdictのkeyにしたい名前
             value:各種設定のdict
                 filename:ファイルへのパス
-                conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合使うシート名を(空欄なら1枚目のシート)書く\n
+                conf:追加設定 csvの場合文字コードを(空欄ならutf-8)、excelファイルの場合
+                使うシート名を(空欄なら1枚目のシート)書く\n
                 header:ヘッダーついてるかどうか　ついてたらTrue ついてなかったらFalse\n
                 index:インデックスついてるかどうか　ついてたらTrue ついてなかったらFalse\n
     outout:\n

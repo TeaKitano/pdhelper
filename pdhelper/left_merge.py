@@ -1,7 +1,8 @@
 import pandas as pd
 
 
-def left_merge(df: pd.DataFrame, df_sub: pd.DataFrame, left_on: str, right_on: str, target: str | list[str]):
+def left_merge(df: pd.DataFrame, df_sub: pd.DataFrame,
+               left_on: str, right_on: str, target: str | list[str]):
     """
     左側結合専用のmerge関数\n
     input\n
@@ -14,7 +15,7 @@ def left_merge(df: pd.DataFrame, df_sub: pd.DataFrame, left_on: str, right_on: s
         df: マージされたDataFrame
     """
     # df_subの使う列抽出
-    if type(target) == list:
+    if type(target) is list:
         target.append(right_on)
     else:
         target = [target, right_on]

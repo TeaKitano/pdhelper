@@ -3,7 +3,7 @@ import sys
 import multiprocessing
 try:
     from pandarallel import pandarallel
-except:
+except ModuleNotFoundError:
     print("並列で処理を行いたい場合はpandarallelインストールする必要があります。")
     print("pip install pandarallel でインストールしてください。")
     sys.exit(1)
