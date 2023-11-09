@@ -74,5 +74,12 @@ class TestFunc(unittest.TestCase): # テストのためのクラス
         for i in range(3):
             self.assertEqual(ans[i],i+17)
 
+    def test_parallelDataframe(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        df1 = df.apply(lambda x: sum(x))
+        self.assertEqual(list(df1),[48,84,108,135])
+        df1 = df.apply(lambda x: x["a"]+x["b"]-x["c"], axis=1)
+        self.assertEqual(list(df1),[7,8,9])
+
 if __name__ == '__main__':
     unittest.main()

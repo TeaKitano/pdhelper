@@ -36,17 +36,30 @@ def df_apply(
     result_type: Literal["expand", "reduce", "broadcast"] | None = None,
     **kwargs,
 ):
-    process = multiprocessing.current_process()
-    if process.daemon:
+    if axis == 0:
+        process = multiprocessing.current_process()
+        if process.daemon:
+            if kwargs == dict():
+                return self._apply(func, axis, raw, result_type)
+            else:
+                return self._apply(func, axis, raw, result_type, kwargs)
         if kwargs == dict():
-            return self._apply(func, axis, raw, result_type)
+            return self.parallel_apply(func, axis, raw, result_type)
         else:
-            return self._apply(func, axis, raw, result_type, kwargs)
-    if kwargs == dict():
-        return self.parallel_apply(func, axis, raw, result_type)
+            return self.parallel_apply(func, axis, raw, result_type, kwargs)
     else:
-        return self.parallel_apply(func, axis, raw, result_type, kwargs)
-
+        process = multiprocessing.current_process()
+        self = self.T
+        axis = 0
+        if process.daemon:
+            if kwargs == dict():
+                return self._apply(func, axis, raw, result_type)
+            else:
+                return self._apply(func, axis, raw, result_type, kwargs)
+        if kwargs == dict():
+            return self.parallel_apply(func, axis, raw, result_type)
+        else:
+            return self.parallel_apply(func, axis, raw, result_type, kwargs)
 
 pd.DataFrame.apply = df_apply
 
