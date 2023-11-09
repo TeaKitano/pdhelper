@@ -11,7 +11,7 @@ def _requires_from_file(filename):
 
 setup(
     name='pdhelper',
-    version='0.1.0',
+    version='2.0.0',
     license='BSD 3-Clause License',
     description='Useful pandas helper',
     author='TeaKitano',
