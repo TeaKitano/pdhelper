@@ -28,6 +28,7 @@ pd.DataFrame._applymap = pd.DataFrame.applymap
 pd.Series._map = pd.Series.map
 pd.Series._apply = pd.Series.apply
 
+
 def df_apply(
     self,
     func: AggFuncType,
@@ -60,6 +61,7 @@ def df_apply(
             return self.parallel_apply(func, axis, raw, result_type)
         else:
             return self.parallel_apply(func, axis, raw, result_type, kwargs)
+
 
 pd.DataFrame.apply = df_apply
 
