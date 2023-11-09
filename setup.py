@@ -16,6 +16,7 @@ setup(
     description='Useful pandas helper',
     author='TeaKitano',
     author_email='chachamusics@outlook.com',
+    url="https://github.com/TeaKitano/pdhelper",
     packages=["pdhelper"],
     include_package_data=True,
     zip_safe=False,

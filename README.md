@@ -3,14 +3,9 @@ pandas上で動く便利なツールをまとめたモジュールです。
 
 ## Install
 ```sh
-pip install pdhelper
+pip install pandashelper
 ```
-※現在pypiへの登録が済んでおらず、こちらの方法でinstallはできません。
-```sh
-pip install git+https://github.com/TeaKitano/pdhelper.git
-```
-を使ってください。
-
+でインストールできます。
 ## Usage
 ```python
 import pdhelper
@@ -20,7 +15,7 @@ import pdhelper
 import pdhelper as ph
 ```
 とすることで、phとしてimportします。
-
+(PyPiへの登録の関係上、install時はpandashelper、import時はpdhelperとなっていますので、気を付けてください。)
 ### parallel_read
 複数ファイルを並列処理を使い高速に読み込むための関数です。入力例は[test_input.json](test_data/parallel/test_input.json)を確認してください。<br>
 ```text
