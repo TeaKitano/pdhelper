@@ -64,31 +64,24 @@ class TestFunc(unittest.TestCase):  # テストのためのクラス
     def test_parallelSeries(self):
         df = pd.read_csv("test_data/dataframe/test_df.csv")
         s = df["a"]
-        ans = s.map(lambda x: str(x)[0])
-        for i in ans:
-            self.assertEqual(i, "1")
-        ans = s.apply(lambda x: str(x)[0])
-        for i in ans:
-            self.assertEqual(i, "1")
+        self.assertEqual(s.map(lambda x: str(x)[0]).equals(
+            s._map(lambda x: str(x)[0])), True)
+        self.assertEqual(s.apply(lambda x: str(x)[0]).equals(
+            s._apply(lambda x: str(x)[0])), True)
 
         def add_a(x, a):
             return x+a
-        ans = s.apply(add_a, args=[2])
-        for i in range(3):
-            self.assertEqual(ans[i], i+17)
+        self.assertEqual(s.apply(add_a, args=[2]).equals(
+            s._apply(add_a, args=[2])), True)
 
     def test_parallelDataframe(self):
         df = pd.read_csv("test_data/dataframe/test_df.csv")
-        df1 = df.apply(lambda x: sum(x))
-        self.assertEqual(list(df1), [48, 84, 108, 135])
-        df2 = df.apply(lambda x: x["a"]+x["b"]-x["c"], axis=1)
-        self.assertEqual(list(df2), [7, 8, 9])
-        df3 = df.applymap(lambda x: x-2)
-        re_list = []
-        for i in df3:
-            re_list.append(list(df3[i]))
-        expend = [[13, 14, 15], [25, 26, 27], [33, 34, 35], [42, 43, 44]]
-        self.assertEqual(re_list, expend)
+        self.assertEqual(df.apply(lambda x: sum(x)).equals(
+            df._apply(lambda x: sum(x))), True)
+        self.assertEqual(df.apply(lambda x: x["a"]+x["b"]-x["c"], axis=1).equals(
+            df._apply(lambda x: x["a"]+x["b"]-x["c"], axis=1)), True)
+        self.assertEqual(df.applymap(
+            lambda x: x-2).equals(df._applymap(lambda x: x-2)), True)
 
 
 if __name__ == '__main__':
