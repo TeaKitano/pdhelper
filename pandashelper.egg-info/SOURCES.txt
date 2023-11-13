@@ -1,0 +1,13 @@
+LICENSE
+README.md
+setup.py
+pandashelper.egg-info/PKG-INFO
+pandashelper.egg-info/SOURCES.txt
+pandashelper.egg-info/dependency_links.txt
+pandashelper.egg-info/not-zip-safe
+pandashelper.egg-info/requires.txt
+pandashelper.egg-info/top_level.txt
+pdhelper/__init__.py
+pdhelper/left_merge.py
+pdhelper/parallel_dataframe.py
+pdhelper/parallel_read.py

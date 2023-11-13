@@ -12,10 +12,12 @@ import pdhelper
 ```
 でimport可能です。この資料においては
 ```python
-import pdhelper as ph
+import pdhelper as pd
 ```
-とすることで、phとしてimportします。
-(PyPiへの登録の関係上、install時はpandashelper、import時はpdhelperとなっていますので、気を付けてください。)
+とすることで、pdとしてimportします。
+(PyPiへの登録の関係上、install時はpandashelper、import時はpdhelperとなっていますので、気を付けてください。)<br>
+また、このモジュールはpandasをオーバーライドしているため、pandasに実装されているすべての関数を利用できます。<br>
+詳細は、[test.py](test.py)で確認できます。
 ### parallel_read
 複数ファイルを並列処理を使い高速に読み込むための関数です。入力例は[test_input.json](test_data/parallel/test_input.json)を確認してください。<br>
 ```text
@@ -30,7 +32,7 @@ output
     読み込んだDataFrameのリスト
 ```
 ```python
-ph.paralell_read(files, conf, header, index)
+pd.paralell_read(files, conf, header, index)
 ```
 
 ### left_merge
@@ -46,7 +48,7 @@ output<br>
     マージされたDataFrame
 ```
 ```python
-ph.left_merge(df, df_sub, left_on, rright_on,target)
+pd.left_merge(df, df_sub, left_on, rright_on,target)
 ```
 example:<br>
 df
@@ -71,7 +73,7 @@ df_sub<br>
 
 として
 ```python
-ph.left_merge(df, df_sub, name, name,gender)
+pd.left_merge(df, df_sub, name, name,gender)
 ```
 とした場合、
 | id  | name | gender | 
@@ -83,7 +85,26 @@ ph.left_merge(df, df_sub, name, name,gender)
 | 4   | e    | 1      | 
 | 5   | f    | 2      | 
 
-が返ってきます
+が返ってきます。
+
+### 並列処理
+```python
+from pdhelper import parallel_dataframe
+```
+をimportすることにより、DataFrameとSeriesに適用するapply等を常時並列で処理します。
+この機能を使う場合、
+```bash
+pip install pandarallel
+```
+でpandarallelをインストールしてください。<br>
+現在対応している関数は
+```
+pandas.DataFrame.apply
+pandas.DataFrame.applymap
+pandas.Series.map
+pandas.Series.apply
+```
+の4つです。
 ## Requrements
 ```python
 pandas

@@ -1,6 +1,7 @@
 from .parallel_read import parallel_read
 from .left_merge import left_merge
 
+from pandas import *
 
 __copyright__    = 'Copyright (C) 2023 Tea Kitano'
 __version__      = '1.0.0'

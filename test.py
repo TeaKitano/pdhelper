@@ -1,8 +1,10 @@
 import unittest
-import pdhelper as ph
-import pandas as pd
+import pdhelper as pd
 import time
 import json
+
+from pdhelper import parallel_dataframe
+
 
 def file_read(file: dict) -> pd.DataFrame:
     filename = file["filename"]
@@ -32,12 +34,13 @@ def file_read(file: dict) -> pd.DataFrame:
         # 拡張子がcsv,xlsx,xls以外だったらこのエラー
         raise ValueError("FileExtentionError")
 
-class TestFunc(unittest.TestCase): # テストのためのクラス
+
+class TestFunc(unittest.TestCase):  # テストのためのクラス
     def test_read(self):
         with open("test_data/parallel/test_input.json") as f:
             files = json.load(f)
         start = time.time()
-        arr = ph.parallel_read(files)
+        arr = pd.parallel_read(files)
         end = time.time()
         print("parallel:"+str(end-start))
 
@@ -48,15 +51,38 @@ class TestFunc(unittest.TestCase): # テストのためのクラス
         end = time.time()
         print("single:"+str(end-start))
         for i in arr:
-            self.assertEqual(l[i].equals(arr[i]),True)
+            self.assertTrue(l[i].equals(arr[i]))
 
     def test_merge(self):
         left = pd.read_csv("test_data/merge/left1.csv")
         right = pd.read_csv("test_data/merge/right1.csv")
         ans = pd.read_csv("test_data/merge/out.csv")
 
-        df = ph.left_merge(left,right,"name","named",["age"])
-        self.assertEqual(df.equals(ans),True)
+        df = pd.left_merge(left, right, "name", "named", ["age"])
+        self.assertTrue(df.equals(ans))
+
+    def test_parallelSeries(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        s = df["a"]
+        self.assertTrue(s.map(lambda x: str(x)[0]).equals(
+            s._map(lambda x: str(x)[0])))
+        self.assertTrue(s.apply(lambda x: str(x)[0]).equals(
+            s._apply(lambda x: str(x)[0])))
+
+        def add_a(x, a):
+            return x+a
+        self.assertTrue(s.apply(add_a, args=[2]).equals(
+            s._apply(add_a, args=[2])))
+
+    def test_parallelDataframe(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        self.assertTrue(df.apply(lambda x: sum(x)).equals(
+            df._apply(lambda x: sum(x))))
+        self.assertTrue(df.apply(lambda x: x["a"]+x["b"]-x["c"], axis=1).equals(
+            df._apply(lambda x: x["a"]+x["b"]-x["c"], axis=1)))
+        self.assertTrue(df.applymap(
+            lambda x: x-2).equals(df._applymap(lambda x: x-2)))
+
 
 if __name__ == '__main__':
     unittest.main()
