@@ -21,13 +21,14 @@ from typing import (
 from collections.abc import Mapping
 from pandas._libs import lib
 
-pandarallel.initialize()
 
 pd.DataFrame._apply = pd.DataFrame.apply
 pd.DataFrame._applymap = pd.DataFrame.applymap
 pd.Series._map = pd.Series.map
 pd.Series._apply = pd.Series.apply
 
+def initialize():
+    return
 
 def df_apply(
     self,
@@ -45,22 +46,46 @@ def df_apply(
             else:
                 return self._apply(func, axis, raw, result_type, kwargs)
         if kwargs == dict():
-            return self.parallel_apply(func, axis, raw, result_type)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type)
+            except AttributeError:
+                pandarallel.initialize()
+                return self.parallel_apply(func, axis, raw, result_type)
         else:
-            return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            except AttributeError:
+                pandarallel.initialize()
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
     else:
         process = multiprocessing.current_process()
         self = self.T
         axis = 0
         if process.daemon:
             if kwargs == dict():
-                return self._apply(func, axis, raw, result_type)
+                try:
+                    return self._apply(func, axis, raw, result_type)
+                except AttributeError:
+                    pandarallel.initialize()
+                    return self._apply(func, axis, raw, result_type)
             else:
-                return self._apply(func, axis, raw, result_type, kwargs)
+                try:
+                    return self._apply(func, axis, raw, result_type, kwargs)
+                except AttributeError:
+                    pandarallel.initialize()
+                    return self._apply(func, axis, raw, result_type, kwargs)
         if kwargs == dict():
-            return self.parallel_apply(func, axis, raw, result_type)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type)
+            except AttributeError:
+                pandarallel.initialize()
+                return self.parallel_apply(func, axis, raw, result_type)
         else:
-            return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            except AttributeError:
+                pandarallel.initialize()
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
 
 
 pd.DataFrame.apply = df_apply
