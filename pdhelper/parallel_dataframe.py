@@ -28,9 +28,12 @@ pd.DataFrame._applymap = pd.DataFrame.applymap
 pd.Series._map = pd.Series.map
 pd.Series._apply = pd.Series.apply
 
-def initialize(nb_workers=psutil.cpu_count(logical=True)-2, progress_bar=False):
+
+def initialize(nb_workers=max(psutil.cpu_count(logical=True)-2,
+                              psutil.cpu_count(logical=False)), progress_bar=False):
     pandarallel.initialize(nb_workers=nb_workers, progress_bar=progress_bar)
     return
+
 
 def df_apply(
     self,
@@ -115,6 +118,7 @@ def df_applymap(
             initialize()
             return self.parallel_applymap(func, na_action, kwargs)
 
+
 pd.DataFrame.applymap = df_applymap
 
 
@@ -131,6 +135,7 @@ def s_map(
     except AttributeError:
         initialize()
         return self.parallel_map(arg, na_action)
+
 
 pd.Series.map = s_map
 
@@ -160,5 +165,6 @@ def s_apply(
         except AttributeError:
             initialize()
             return self.parallel_apply(func, convert_dtype, args, kwargs)
+
 
 pd.Series.apply = s_apply
