@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import multiprocessing
+import psutil
 try:
     from pandarallel import pandarallel
 except ModuleNotFoundError:
@@ -21,12 +22,17 @@ from typing import (
 from collections.abc import Mapping
 from pandas._libs import lib
 
-pandarallel.initialize()
 
 pd.DataFrame._apply = pd.DataFrame.apply
 pd.DataFrame._applymap = pd.DataFrame.applymap
 pd.Series._map = pd.Series.map
 pd.Series._apply = pd.Series.apply
+
+
+def initialize(nb_workers=max(psutil.cpu_count(logical=True)-2,
+                              psutil.cpu_count(logical=False)), progress_bar=False):
+    pandarallel.initialize(nb_workers=nb_workers, progress_bar=progress_bar)
+    return
 
 
 def df_apply(
@@ -45,22 +51,46 @@ def df_apply(
             else:
                 return self._apply(func, axis, raw, result_type, kwargs)
         if kwargs == dict():
-            return self.parallel_apply(func, axis, raw, result_type)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type)
+            except AttributeError:
+                initialize()
+                return self.parallel_apply(func, axis, raw, result_type)
         else:
-            return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            except AttributeError:
+                initialize()
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
     else:
         process = multiprocessing.current_process()
         self = self.T
         axis = 0
         if process.daemon:
             if kwargs == dict():
-                return self._apply(func, axis, raw, result_type)
+                try:
+                    return self._apply(func, axis, raw, result_type)
+                except AttributeError:
+                    initialize()
+                    return self._apply(func, axis, raw, result_type)
             else:
-                return self._apply(func, axis, raw, result_type, kwargs)
+                try:
+                    return self._apply(func, axis, raw, result_type, kwargs)
+                except AttributeError:
+                    initialize()
+                    return self._apply(func, axis, raw, result_type, kwargs)
         if kwargs == dict():
-            return self.parallel_apply(func, axis, raw, result_type)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type)
+            except AttributeError:
+                initialize()
+                return self.parallel_apply(func, axis, raw, result_type)
         else:
-            return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            try:
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
+            except AttributeError:
+                initialize()
+                return self.parallel_apply(func, axis, raw, result_type, kwargs)
 
 
 pd.DataFrame.apply = df_apply
@@ -76,10 +106,17 @@ def df_applymap(
         else:
             return self._applymap(func, kwargs)
     if kwargs == dict():
-        print(func)
-        return self.parallel_applymap(func)
+        try:
+            return self.parallel_applymap(func)
+        except AttributeError:
+            initialize()
+            return self.parallel_applymap(func)
     else:
-        return self.parallel_applymap(func, na_action, kwargs)
+        try:
+            return self.parallel_applymap(func, na_action, kwargs)
+        except AttributeError:
+            initialize()
+            return self.parallel_applymap(func, na_action, kwargs)
 
 
 pd.DataFrame.applymap = df_applymap
@@ -93,7 +130,11 @@ def s_map(
     process = multiprocessing.current_process()
     if process.daemon:
         return self._map(arg, na_action)
-    return self.parallel_map(arg, na_action)
+    try:
+        return self.parallel_map(arg, na_action)
+    except AttributeError:
+        initialize()
+        return self.parallel_map(arg, na_action)
 
 
 pd.Series.map = s_map
@@ -113,9 +154,17 @@ def s_apply(
         else:
             return self._apply(func, convert_dtype, args, kwargs)
     if kwargs == dict():
-        return self.parallel_apply(func, convert_dtype, args)
+        try:
+            return self.parallel_apply(func, convert_dtype, args)
+        except AttributeError:
+            initialize()
+            return self.parallel_apply(func, convert_dtype, args)
     else:
-        return self.parallel_apply(func, convert_dtype, args, kwargs)
+        try:
+            return self.parallel_apply(func, convert_dtype, args, kwargs)
+        except AttributeError:
+            initialize()
+            return self.parallel_apply(func, convert_dtype, args, kwargs)
 
 
 pd.Series.apply = s_apply

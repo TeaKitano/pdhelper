@@ -104,7 +104,19 @@ pandas.DataFrame.applymap
 pandas.Series.map
 pandas.Series.apply
 ```
-の4つです。
+の4つです。<br>
+詳細設定のためにinitialize関数が用意されています。
+```python
+parallel_dataframe.initialize(nb_workers=10, progress_bar=False)
+```
+のように利用します。
+```text
+input
+    nb_workers : どれだけ並列にするかを設定します。デフォルトではCPUのスレッド数-2です。
+    progress_bar : どれだけ処理したかを標準出力にバーで表すかどうかです。デフォルトではFalseとなっています。表示したい場合はTrueにしてください。
+output
+    なし(並列処理用のシステムの初期化が行われます。)
+```
 ## Requrements
 ```python
 pandas
