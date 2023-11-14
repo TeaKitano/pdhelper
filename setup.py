@@ -11,7 +11,7 @@ def _requires_from_file(filename):
 
 setup(
     name='pandashelper',
-    version='2.1.0',
+    version='2.1.1',
     license='BSD 3-Clause License',
     description='Useful pandas helper',
     author='TeaKitano',
