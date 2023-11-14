@@ -76,7 +76,6 @@ def df_applymap(
         else:
             return self._applymap(func, kwargs)
     if kwargs == dict():
-        print(func)
         return self.parallel_applymap(func)
     else:
         return self.parallel_applymap(func, na_action, kwargs)
