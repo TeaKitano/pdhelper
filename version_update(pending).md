@@ -20,12 +20,12 @@ s = df.row_apply("a", abs)
 行バージョンはcolumn_applyで実装
 ## その2 piplineの追加
 DataFrameに対する処理のパイプラインを追加する<br>
-pipeクラスに引数としてpipelineにしたい内容を登録する。<br>
+引数に処理をまとめたリストを用いる。<br>
 登録は処理のリスト。処理一つ一つは辞書で記述され、"func"keyが関数、0・1のようなint型のkeyが0~連続で位置引数、文字列keyがキーワード引数を示す。
 ```python
 import pdhelper as pd
 df = pd.read_csv("test.csv")
-pipe = pd.Pipe([{"func":pd.DataFrame.drop, 0:"name", "axis":1, "inplace":True},
-                {"func":pd.DataFrame.row_apply, 0:"a", 1:abs, "inplace":True}])
+pipe = [{"func":pd.DataFrame.drop, 0:"name", "axis":1, "inplace":True},
+                {"func":pd.DataFrame.row_apply, 0:"a", 1:abs, "inplace":True}]
 df.adopt_pipe(pipe, inplace=True)
 ```
