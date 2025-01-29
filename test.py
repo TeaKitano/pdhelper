@@ -83,6 +83,26 @@ class TestFunc(unittest.TestCase):  # テストのためのクラス
         self.assertTrue(df.applymap(
             lambda x: x-2).equals(df._applymap(lambda x: x-2)))
 
+    def test_columnapply(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        df.index = ["Alice", "Bob", "Charlie"]
+        s = df.column_apply("Alice", lambda x: x*2)
+        s_perfect = df.loc["Alice"].apply(lambda x: x*2)
+        self.assertTrue(s.equals(s_perfect))
+        df_perfect = df.copy()
+        df_perfect.loc["Alice"] = df.loc["Alice"].apply(lambda x: x*2)
+        df.column_apply("Alice", lambda x: x*2, inplace=True)
+        self.assertTrue(df.equals(df_perfect))
+
+    def test_rowapply(self):
+        df = pd.read_csv("test_data/dataframe/test_df.csv")
+        s = df.row_apply("a", lambda x: x**2)
+        s_perfect = df["a"].apply(lambda x: x**2)
+        self.assertTrue(s.equals(s_perfect))
+        df_perfect = df.copy()
+        df_perfect["a"] = df["a"].apply(lambda x: x**2)
+        df.row_apply("a", lambda x: x**2, inplace=True)
+        self.assertTrue(df.equals(df_perfect))
 
 if __name__ == '__main__':
     unittest.main()
