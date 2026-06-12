@@ -126,4 +126,3 @@ BSD 3-Clause License (LICENSEファイルも参照して下さい)
 ## Author
 name: Tea Kitano<br>
 e-mail: chachamusics@outlook.com<br>
-twitter: https://twitter.com/ChachaLepracaun
